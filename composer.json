@@ -1,0 +1,23 @@
+{
+    "name": "sitepoint/raml-testing",
+    "description": "A simple example of testing APIs against RAML definitions",
+    "require": {
+        "php": ">=5.4",
+        "alecsammon/php-raml-parser": "dev-master",
+        "guzzle/guzzle": "~3.9@dev",
+        "nikic/fast-route": "~0.3.0",
+        "phpunit/phpunit": "~4.6@dev"
+    },
+    "authors": [
+        {
+            "name": "lukaswhite",
+            "email": "hello@lukaswhite.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+          "Sitepoint\\": "src/"
+        }
+      },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,98 @@
+#%RAML 0.8
+title: Albums
+version: v1
+baseUri: http://localhost:8000
+traits:
+  - secured:
+      description: Some requests require authentication
+      queryParameters:
+        accessToken:
+          displayName: Access Token
+          description: An access token is required for secure routes
+          required: true
+  - unsecured:
+      description: This is not secured
+/account:
+  displayName: Account
+  get:
+    description: Get the currently authenticated user's account details.    
+    is: [secured]
+    responses:
+      200:
+        body:
+          application/json: 
+            schema: |
+              { "$schema": "http://json-schema.org/schema#",
+                "type": "object",
+                "description": "A user",
+                "properties": {
+                  "id":  { 
+                    "description": "Unique numeric ID for this user",
+                    "type": "integer" 
+                  },
+                  "username":  { 
+                    "description": "The user's username",
+                    "type": "string" 
+                  },                  
+                  "email":  { 
+                    "description": "The user's e-mail address",
+                    "type": "string",
+                    "format": "email" 
+                  },
+                  "twitter": {
+                    "description": "User's Twitter screen name (without the leading @)",
+                    "type": "string"
+                  }
+                },
+                "required": [ "id", "username" ]
+              }
+            example: |
+              {
+                "id": 12345678,
+                "username": "joebloggs",
+                "email": "joebloggs@example.com",                                
+                "twitter": "joebloggs"
+              }
+  put:
+    description: Update the current user's account
+/albums:
+  displayName: Albums
+  /{id}:      
+    displayName: Album
+    uriParameters: 
+      id:
+        description: Numeric ID which represents the album
+    /tracks:
+      displayName: Album Tracklisting
+      get:
+        responses:
+          200:
+            body:
+              application/json: 
+                schema: |
+                  { "$schema": "http://json-schema.org/schema#",
+                    "type": "array",
+                    "description": "An array of tracks",
+                    "items": {
+                      "id":  { 
+                        "description": "Unique numeric ID for this track",
+                        "type": "integer" 
+                      },
+                      "name":  { 
+                        "description": "The name of the track",
+                        "type": "string" 
+                      }
+                    },
+                    "required": [ "id", "name" ]
+                  }
+                example: |
+                  [                    
+                    {
+                      "id": 12345,
+                      "name": "Dark & Long"
+                    },
+                    {
+                      "id": 12346,
+                      "name": "Mmm Skyscraper I Love You"
+                    }
+                  ]                                      
